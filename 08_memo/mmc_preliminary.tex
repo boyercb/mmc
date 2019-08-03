@@ -1,0 +1,275 @@
+\documentclass[11pt,english]{article}
+%\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[authoryear]{natbib}
+\usepackage{amssymb,amsmath,amsthm}
+%\usepackage[nolists]{endfloat}
+\usepackage{graphicx}
+\usepackage{chngpage}
+\usepackage[hang, small]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{pdflscape}
+\usepackage{longtable}
+\usepackage{color}
+\usepackage{epigraph}
+\usepackage{float}
+\usepackage{array}
+\usepackage{fullpage}
+\usepackage{setspace}
+\usepackage[normalem]{ulem}
+\usepackage{appendix}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[small,compact]{titlesec}
+\usepackage{rotate}
+\usepackage{subcaption}
+\usepackage{titletoc}
+\usepackage[pdfborder={0 0 0}]{hyperref}
+
+
+\newtheorem{definition}{Definition}
+\newtheorem{hypothesis}{Hypothesis}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{theorem}{Theorem}
+
+\setlength{\epigraphwidth}{.5\textwidth}
+
+
+\newcommand{\note}[1]{
+  {\color{red} #1 }
+}
+
+\begin{document}
+
+\title{Modern Man Challenge: Preliminary Results}
+
+\author{
+  Jeannie Annan\footnote{International Rescue Committee and University of Chicago, \href{Jeannie.Annan@rescue.org}{Jeannie.Annan@rescue.org}} \quad  
+  Gunther Fink\footnote{Swiss Tropical and Public Health Institute, \href{guenther.fink@swisstph.ch }{guenther.fink@swisstph.ch }} \quad  
+  Betsy Levy Paluck\footnote{Princeton University, \href{epaluck@princeton.edu}{epaluck@princeton.edu}}\thanks{
+  [THANKS]
+  } 
+}
+
+
+\maketitle
+
+%\textbf{Keywords}: ***
+
+%\begin{abstract}
+%  ABSTRACT
+%\end{abstract}
+
+
+\clearpage
+
+\tableofcontents
+
+\newpage
+
+\listoftables
+
+\newpage
+
+\setcounter{page}{1}
+
+\doublespacing 
+
+\section{Main Analysis}
+
+\subsection{Regression specifications}
+
+Pre-liminary results are estimated using two different regressions specifications. The unadjusted estimator is a least squares regression that conditions on an indicator for the treatment assignment $Z_i$ and uses CR2 cluster robust standard errors, i.e.:
+
+\[\textrm{IPV}_{ij} = \beta_0 + \beta_1 Z_i + \varepsilon_i \]
+
+The adjusted estimator conditions on mean-centered pre-treatment violence outcomes (i.e. prior to Christmas 2018) that were measured retrospectively during the women's survey and includes interaction terms as suggested in Lin (2013):
+\[\textrm{IPV}_{ij} = \beta_0 + \beta_1 Z_i + \beta_2 \overline{X}_i + \beta_3 Z_i \overline{X}_i + \varepsilon_i\]
+
+In both specifications $\beta_1$ estimates the intention-to-treat effect of the Modern Man Challenge. An additional pooled analysis is also presented in which outcomes are aggregated at the cluster level and then regressed using both specifications listed above but at the cluster-level instead of the individual.
+
+\subsection{Any Violence}
+
+\subsubsection{IPV}
+
+\begin{table}[H]
+\centering
+\input{tables/ipv}
+\caption{Effects on proportion of women experiencing any IPV since Christmas 2018.}
+\label{tab:ipv}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/ipv_plot.pdf}
+\caption{Plot of raw data for any IPV outcome.}
+\label{fig:ipv_plot}
+\end{figure}
+
+\subsubsection{Physical Violence}
+
+\begin{table}[H]
+\centering
+\input{tables/physical}
+\caption{Effects on proportion of women experiencing any physical violence since Christmas 2018.}
+\label{tab:physical}
+\end{table}
+
+\subsubsection{Sexual Violence}
+
+\begin{table}[H]
+\centering
+\input{tables/sexual}
+\caption{Effects on proportion of women experiencing any sexual violence since Christmas 2018.}
+\label{tab:sexual}
+\end{table}
+
+%Comments on Table \ref{tab:ipv}
+%\begin{itemize}
+%  \singlespacing
+%  \item All effects are in hypothesized direction. 
+%  \item The 
+%  \item We s
+%\end{itemize}
+
+\subsubsection{Individual Acts}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/subitem_plot.pdf}
+\caption{Treatment effects on "Any IPV" index items.}
+\label{fig:subitems_plot}
+\end{figure}
+
+\subsection{Frequency and Breadth of Violence}
+
+\subsubsection{IPV}
+
+\begin{table}[H]
+\centering
+\input{tables/ipv_freq}
+\caption{Effects on frequency and breadth of IPV since Christmas 2018.}
+\label{tab:ipv}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/ipv_freq_plot.pdf}
+\caption{Plot of raw data for breadth and frequency of IPV outcome.}
+\label{fig:ipv_freq_plot}
+\end{figure}
+
+\subsubsection{Physical Violence}
+
+\begin{table}[H]
+\centering
+\input{tables/physical_freq}
+\caption{Effects on frequency and breadth of physical violence since Christmas 2018.}
+\label{tab:physical}
+\end{table}
+
+\subsubsection{Sexual Violence}
+
+\begin{table}[H]
+\centering
+\input{tables/sexual_freq}
+\caption{Effects on frequency and breadth of sexual violence since Christmas 2018.}
+\label{tab:sexual}
+\end{table}
+
+\subsubsection{Individual Acts}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/subitem_freq_plot.pdf}
+\caption{Treatment effects on "Frequency and Breadth of IPV" index items.}
+\label{fig:subitems_freq_plot}
+\end{figure}
+
+\section{Pooled Analysis}
+
+\subsection{Any Violence}
+
+\subsubsection{IPV}
+
+\begin{table}[H]
+\centering
+\input{tables/ipv_pooled}
+\caption{Pooled effects on proportion of women experiencing any IPV since Christmas 2018.}
+\label{tab:ipv}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/pooled_ipv_plot.pdf}
+\caption{Plot of raw data for any IPV outcome.}
+\label{fig:pooled_ipv_plot}
+\end{figure}
+
+\subsubsection{Physical Violence}
+
+\begin{table}[H]
+\centering
+\input{tables/physical_pooled}
+\caption{Pooled effects on proportion of women experiencing any physical violence since Christmas 2018.}
+\label{tab:physical}
+\end{table}
+
+\subsubsection{Sexual Violence}
+
+\begin{table}[H]
+\centering
+\input{tables/sexual_pooled}
+\caption{Pooled effects on proportion of women experiencing any sexual violence since Christmas 2018.}
+\label{tab:sexual}
+\end{table}
+
+\subsection{Frequency and Breadth of Violence}
+
+\subsubsection{IPV}
+
+\begin{table}[H]
+\centering
+\input{tables/ipv_freq_pooled}
+\caption{Pooled effects on frequency and breadth of IPV since Christmas 2018.}
+\label{tab:ipv}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/pooled_ipv_freq_plot.pdf}
+\caption{Plot of raw data for breadth and frequency of IPV outcome.}
+\label{fig:pooled_ipv_freq_plot}
+\end{figure}
+
+\subsubsection{Physical Violence}
+
+\begin{table}[H]
+\centering
+\input{tables/physical_freq_pooled}
+\caption{Pooled effects on frequency and breadth of physical violence since Christmas 2018.}
+\label{tab:physical}
+\end{table}
+
+\subsubsection{Sexual Violence}
+
+\begin{table}[H]
+\centering
+\input{tables/sexual_freq_pooled}
+\caption{Pooled effects on frequency and breadth of sexual violence since Christmas 2018.}
+\label{tab:sexual}
+\end{table}
+
+\section{Covariate Balance}
+
+\subsection{Pre-treatment Violence}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/subitem_balance_plot.pdf}
+\caption{Balance on retrospectively reported pre-treatment violence outcomes (i.e. before Christmas 2018).}
+\label{fig:subitem_balance_plot}
+\end{figure}
+
+
+\end{document}

@@ -75,54 +75,213 @@
 
 \doublespacing 
 
-\section{Main Analysis}
+\section{Intent-to-Treat Effects}
 
 \subsection{Regression specifications}
 
 Pre-liminary results are estimated using two different regressions specifications. The unadjusted estimator is a least squares regression that conditions on an indicator for the treatment assignment $Z_i$ and uses CR2 cluster robust standard errors, i.e.:
 
-\[\textrm{IPV}_{ij} = \beta_0 + \beta_1 Z_i + \varepsilon_i \]
+\[Y_{ij} = \beta_0 + \beta_1 Z_i + \varepsilon_i \]
 
 The adjusted estimator conditions on mean-centered pre-treatment violence outcomes (i.e. prior to Christmas 2018) that were measured retrospectively during the women's survey and includes interaction terms as suggested in Lin (2013):
-\[\textrm{IPV}_{ij} = \beta_0 + \beta_1 Z_i + \beta_2 \overline{X}_i + \beta_3 Z_i \overline{X}_i + \varepsilon_i\]
+\[Y_{ij} = \beta_0 + \beta_1 Z_i + \beta_2 \overline{X}_i + \beta_3 Z_i \overline{X}_i + \varepsilon_i\]
 
 In both specifications $\beta_1$ estimates the intention-to-treat effect of the Modern Man Challenge. An additional pooled analysis is also presented in which outcomes are aggregated at the cluster level and then regressed using both specifications listed above but at the cluster-level instead of the individual.
 
-\subsection{Any Violence}
+\subsection{Primary Outcomes}
 
 \subsubsection{IPV}
 
 \begin{table}[H]
 \centering
 \input{tables/ipv}
-\caption{Effects on proportion of women experiencing any IPV since Christmas 2018.}
+\caption{ITT effects on indices of intimate partner violence since Christmas 2018.}
 \label{tab:ipv}
 \end{table}
 
+\subsubsection{Subitems}
+
 \begin{figure}[H]
 \centering
-\includegraphics[width = \textwidth]{figures/ipv_plot.pdf}
-\caption{Plot of raw data for any IPV outcome.}
-\label{fig:ipv_plot}
+\includegraphics[width = \textwidth]{figures/subitem_plot.pdf}
+\caption{Plot of ITT effects on index subitems for violence outcomes.}
+\label{fig:subitem_plot}
 \end{figure}
 
-\subsubsection{Physical Violence}
+\subsection{Men's Secondary Outcomes}
+
+\subsubsection{Attitudes and perceptions about violence}
 
 \begin{table}[H]
 \centering
-\input{tables/physical}
-\caption{Effects on proportion of women experiencing any physical violence since Christmas 2018.}
-\label{tab:physical}
+\input{tables/attitudes_results_m}
+\caption{ITT effects on on indices of men's attitudes and perceptions of violence since Christmas 2018.}
+\label{tab:attitudes_results_m}
 \end{table}
 
-\subsubsection{Sexual Violence}
+\subsubsection{Decision-making}
 
 \begin{table}[H]
 \centering
-\input{tables/sexual}
-\caption{Effects on proportion of women experiencing any sexual violence since Christmas 2018.}
-\label{tab:sexual}
+\input{tables/dm_etc_results_m}
+\caption{ITT effects on on indices of men's reports of decision-making and support since Christmas 2018.}
+\label{tab:dm_etc_results_m}
 \end{table}
+
+\subsubsection{Sexual consent and pleasure}
+
+\begin{table}[H]
+\centering
+\input{tables/sex_results_m}
+\caption{ITT effects on on indices of men's reports of sexual consent practices and pleasure since Christmas 2018.}
+\label{tab:sex_results_m}
+\end{table}
+
+\subsubsection{Communication}
+
+\begin{table}[H]
+\centering
+\input{tables/comm_results_m}
+\caption{ITT effects on on indices of men's reports of communication practices since Christmas 2018.}
+\label{tab:comm_results_m}
+\end{table}
+
+\subsubsection{Conflict}
+
+\begin{table}[H]
+\centering
+\input{tables/conflict_results_m}
+\caption{ITT effects on on indices of men's reports of conflict since Christmas 2018.}
+\label{tab:conflict_results_m}
+\end{table}
+
+\subsection{Women's Secondary Outcomes}
+
+
+\subsubsection{Attitudes and perceptions about violence}
+
+\begin{table}[H]
+\centering
+\input{tables/attitudes_results_w}
+\caption{ITT effects on on indices of women's attitudes and perceptions of violence since Christmas 2018.}
+\label{tab:attitudes_results_w}
+\end{table}
+
+\subsubsection{Decision-making}
+
+\begin{table}[H]
+\centering
+\input{tables/dm_etc_results_w}
+\caption{ITT effects on on indices of women's reports of decision-making and support since Christmas 2018.}
+\label{tab:dm_etc_results_w}
+\end{table}
+
+\subsubsection{Sexual consent and pleasure}
+
+\begin{table}[H]
+\centering
+\input{tables/sex_results_w}
+\caption{ITT effects on on indices of women's reports of sexual consent practices and pleasure since Christmas 2018.}
+\label{tab:sex_results_w}
+\end{table}
+
+\subsubsection{Communication}
+
+\begin{table}[H]
+\centering
+\input{tables/comm_results_w}
+\caption{ITT effects on on indices of women's reports of communication practices since Christmas 2018.}
+\label{tab:comm_results_w}
+\end{table}
+
+\subsubsection{Conflict}
+
+\begin{table}[H]
+\centering
+\input{tables/conflict_results_w}
+\caption{ITT effects on on indices of women's reports of conflict since Christmas 2018.}
+\label{tab:conflict_results_w}
+\end{table}
+
+\section{Complier average causal effects}
+
+\subsection{Descriptive results}
+
+\subsubsection{Compliance statistics}
+
+\subsubsection{Covariate balance among compliers}
+
+\begin{table}[H]
+\centering
+\input{tables/complier_balance_results}
+\caption{Covariate balance among those who attended meeting about either MMC or health program.}
+\label{tab:complier_balance_results}
+\end{table}
+
+\subsection{Complier average causal effects}
+
+\subsubsection{IPV}
+
+\begin{table}[H]
+\centering
+\input{tables/compliers_ipv}
+\caption{Complier average causal effects on indices of intimate partner violence since Christmas 2018.}
+\label{tab:ompliers_ipv}
+\end{table}
+
+\subsubsection{Men's Secondary Outcomes}
+
+\subsubsection{Women's Secondary Outcomes}
+
+\section{Robustness checks}
+
+\subsection{Outcome summaries}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/distribution_violence.pdf}
+\caption{Histograms showing distribution of violence outcomes.}
+\label{fig:dist_violence}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/distribution_mens.pdf}
+\caption{Histograms showing distribution of men's outcomes.}
+\label{fig:dist_mens}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/distribution_womens.pdf}
+\caption{Histograms showing distribution of women's outcomes.}
+\label{fig:dist_womens}
+\end{figure}
+
+\subsection{Covariate balance}
+
+\subsubsection{}
+
+\begin{table}[H]
+\centering
+\input{tables/balance_results}
+\caption{Balance of MMC and control clusters on pre-treatment and time invariant coviarates.}
+\label{tab:balance_results}
+\end{table}
+
+\subsubsection{Joint tests}
+
+
+\subsection{Attrition}
+
+\subsection{Inference}
+
+\subsection{Block assignment}
+
+\subsection{Missing data models}
+
+\subsection{Bayes}
+
 
 %Comments on Table \ref{tab:ipv}
 %\begin{itemize}
@@ -132,144 +291,6 @@ In both specifications $\beta_1$ estimates the intention-to-treat effect of the 
 %  \item We s
 %\end{itemize}
 
-\subsubsection{Individual Acts}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = \textwidth]{figures/subitem_plot.pdf}
-\caption{Treatment effects on "Any IPV" index items.}
-\label{fig:subitems_plot}
-\end{figure}
-
-\subsection{Frequency and Breadth of Violence}
-
-\subsubsection{IPV}
-
-\begin{table}[H]
-\centering
-\input{tables/ipv_freq}
-\caption{Effects on frequency and breadth of IPV since Christmas 2018.}
-\label{tab:ipv}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = \textwidth]{figures/ipv_freq_plot.pdf}
-\caption{Plot of raw data for breadth and frequency of IPV outcome.}
-\label{fig:ipv_freq_plot}
-\end{figure}
-
-\subsubsection{Physical Violence}
-
-\begin{table}[H]
-\centering
-\input{tables/physical_freq}
-\caption{Effects on frequency and breadth of physical violence since Christmas 2018.}
-\label{tab:physical}
-\end{table}
-
-\subsubsection{Sexual Violence}
-
-\begin{table}[H]
-\centering
-\input{tables/sexual_freq}
-\caption{Effects on frequency and breadth of sexual violence since Christmas 2018.}
-\label{tab:sexual}
-\end{table}
-
-\subsubsection{Individual Acts}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = \textwidth]{figures/subitem_freq_plot.pdf}
-\caption{Treatment effects on "Frequency and Breadth of IPV" index items.}
-\label{fig:subitems_freq_plot}
-\end{figure}
-
-\section{Pooled Analysis}
-
-\subsection{Any Violence}
-
-\subsubsection{IPV}
-
-\begin{table}[H]
-\centering
-\input{tables/ipv_pooled}
-\caption{Pooled effects on proportion of women experiencing any IPV since Christmas 2018.}
-\label{tab:ipv}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = \textwidth]{figures/pooled_ipv_plot.pdf}
-\caption{Plot of raw data for any IPV outcome.}
-\label{fig:pooled_ipv_plot}
-\end{figure}
-
-\subsubsection{Physical Violence}
-
-\begin{table}[H]
-\centering
-\input{tables/physical_pooled}
-\caption{Pooled effects on proportion of women experiencing any physical violence since Christmas 2018.}
-\label{tab:physical}
-\end{table}
-
-\subsubsection{Sexual Violence}
-
-\begin{table}[H]
-\centering
-\input{tables/sexual_pooled}
-\caption{Pooled effects on proportion of women experiencing any sexual violence since Christmas 2018.}
-\label{tab:sexual}
-\end{table}
-
-\subsection{Frequency and Breadth of Violence}
-
-\subsubsection{IPV}
-
-\begin{table}[H]
-\centering
-\input{tables/ipv_freq_pooled}
-\caption{Pooled effects on frequency and breadth of IPV since Christmas 2018.}
-\label{tab:ipv}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = \textwidth]{figures/pooled_ipv_freq_plot.pdf}
-\caption{Plot of raw data for breadth and frequency of IPV outcome.}
-\label{fig:pooled_ipv_freq_plot}
-\end{figure}
-
-\subsubsection{Physical Violence}
-
-\begin{table}[H]
-\centering
-\input{tables/physical_freq_pooled}
-\caption{Pooled effects on frequency and breadth of physical violence since Christmas 2018.}
-\label{tab:physical}
-\end{table}
-
-\subsubsection{Sexual Violence}
-
-\begin{table}[H]
-\centering
-\input{tables/sexual_freq_pooled}
-\caption{Pooled effects on frequency and breadth of sexual violence since Christmas 2018.}
-\label{tab:sexual}
-\end{table}
-
-\section{Covariate Balance}
-
-\subsection{Pre-treatment Violence}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = \textwidth]{figures/subitem_balance_plot.pdf}
-\caption{Balance on retrospectively reported pre-treatment violence outcomes (i.e. before Christmas 2018).}
-\label{fig:subitem_balance_plot}
-\end{figure}
 
 
 \end{document}

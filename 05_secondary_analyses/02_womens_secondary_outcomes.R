@@ -67,8 +67,8 @@ texreg(
   custom.model.names = c(
     "Justifies Violence",
     "Justifies Violence",
-    "Perceptions of Violence",
-    "Perceptions of Violence"
+    "\\shortstack{Perceptions of \\\\ Violence Norms}",
+    "\\shortstack{Perceptions of \\\\ Violence Norms}"
   ),
   custom.coef.names = c("Constant", "MMC"),
   override.se = lapply(lapply(attitudes_results_w, get, x = "robust"), "[", , 2),
@@ -143,8 +143,8 @@ sink("08_memo/tables/sex_results_w.tex")
 texreg(
   lapply(sex_results_w, get, x = "fit"),
   custom.model.names = c(
-    "Neg. response to no to sex",
-    "Neg. response to no to sex"
+    "\\shortstack{Neg. response \\\\ to no consent}",
+    "\\shortstack{Neg. response \\\\ to no consent}"
   ),
   custom.coef.names = c("Constant", "MMC"),
   override.se = lapply(lapply(sex_results_w, get, x = "robust"), "[", , 2),
@@ -179,14 +179,14 @@ sink("08_memo/tables/comm_results_w.tex")
 texreg(
   lapply(comm_results_w, get, x = "fit"),
   custom.model.names = c(
-    "Discuss relationship",
-    "Discuss relationship",
-    "Good talk",
-    "Good talk",
-    "Freq. good expressions",
-    "Freq. good expressions",
-    "Enjoy mutual acts",
-    "Enjoy mutual acts"
+    "\\shortstack{Discuss \\\\ relation- \\\\ ship}",
+    "\\shortstack{Discuss \\\\ relation- \\\\ ship}",
+    "\\shortstack{Good \\\\ talk}",
+    "\\shortstack{Good \\\\ talk}",
+    "\\shortstack{Freq. \\\\ good \\\\ expressions}",
+    "\\shortstack{Freq. \\\\ good \\\\ expressions}",
+    "\\shortstack{Enjoy \\\\ mutual \\\\ acts}",
+    "\\shortstack{Enjoy \\\\ mutual \\\\ acts}"
   ),
   custom.coef.names = c("Constant", "MMC"),
   override.se = lapply(lapply(comm_results_w, get, x = "robust"), "[", , 2),
@@ -225,12 +225,12 @@ sink("08_memo/tables/conflict_results_w.tex")
 texreg(
   lapply(conflict_results_w, get, x = "fit"),
   custom.model.names = c(
-    "Resolve conflicts",
-    "Resolve conflicts",
-    "Freq. argue",
-    "Freq. argue",
-    "Man's resolution skills",
-    "Man's resolution skills"
+    "\\shortstack{Resolve \\\\ conflicts}",
+    "\\shortstack{Resolve \\\\ conflicts}",
+    "\\shortstack{Freq. argue}",
+    "\\shortstack{Freq. argue}",
+    "\\shortstack{Man's resolution \\\\ skills}",
+    "\\shortstack{Man's resolution \\\\ skills}"
   ),
   custom.coef.names = c("Constant", "MMC"),
   override.se = lapply(lapply(conflict_results_w, get, x = "robust"), "[", , 2),

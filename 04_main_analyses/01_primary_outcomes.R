@@ -23,7 +23,12 @@ main_models <-
 sink("08_memo/tables/ipv.tex")
 texreg(
   lapply(main_models, get, x = "fit"),
-  custom.model.names = c("IPV", "IPV", "Physical/Sexual", "Physical/Sexual", "Emotional", "Emotional"),
+  custom.model.names = c("IPV",
+                         "IPV",
+                         "Physical/Sexual",
+                         "Physical/Sexual",
+                         "Emotional",
+                         "Emotional"),
   custom.coef.names = c("Constant", "MMC"),
   override.se = lapply(lapply(main_models, get, x = "robust"), "[", , 2),
   override.pvalues = lapply(lapply(main_models, get, x = "robust"), "[", , 4),
@@ -40,7 +45,7 @@ texreg(
   table = FALSE,
   include.rsquared = FALSE,
   include.rmse = FALSE,
-  booktabs = TRUE, 
+  booktabs = TRUE,
   use.packages = FALSE,
   custom.note = "\\parbox{\\linewidth}{\\vspace{2pt} 
        \\textit{Notes:} Estimates of the intent-to-treat effects of Modern Man mobile 

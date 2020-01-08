@@ -1,103 +1,40 @@
 # All blocks (N = 16) -----------------------------------------------------
 
-outcomes <- rep(violence_outcomes, each = 2)
-covariates <- rep(pre_violence_outcomes_c, each = 2)
-covariates[c(TRUE, FALSE)] <- NA
+primary_outcomes <- rep(violence_outcomes, each = 2)
+primary_covariates <- rep(c("Yes", "No"), length(violence_outcomes))
 
 main_models <-
-  map2(outcomes,
-       covariates,
+  map2(primary_outcomes,
+       primary_covariates,
        function (x, y) {
          main_estimator(
            outcome = x,
-           covariates = y,
-           data = el,
-           clusters = "block_m"
+           covariates = if (y == "Yes") get_covariates(x, selected_covariates),
+           data = el_imputed,
+           cluster = "block_id", 
+           se_type = "wild",
+           sims = sims
          )
        })
-
-
-# Only randomized blocks (N = 10) -----------------------------------------
-
-main_models_ra <-
-  map2(outcomes,
-       covariates,
-       function (x, y) {
-         main_estimator(
-           outcome = x,
-           covariates = y,
-           data = filter(el, manual_block == 0),
-           clusters = "block_m"
-         )
-       })
-
-
-# Create results lists ----------------------------------------------------
-
-ipv_results <-
-  list(
-    main_models[[1]], 
-    main_models[[2]], 
-    main_models_ra[[1]],
-    main_models_ra[[2]]
-  )
-
-ipv_freq_results <-
-  list(
-    main_models[[3]], 
-    main_models[[4]], 
-    main_models_ra[[3]],
-    main_models_ra[[4]]
-  )
-
-physical_results <-
-  list(
-    main_models[[5]], 
-    main_models[[6]], 
-    main_models_ra[[5]],
-    main_models_ra[[6]]
-  )
-
-physical_freq_results <-
-  list(
-    main_models[[7]], 
-    main_models[[8]], 
-    main_models_ra[[7]],
-    main_models_ra[[8]]
-  )
-
-sexual_results <-
-  list(
-    main_models[[9]], 
-    main_models[[10]], 
-    main_models_ra[[9]],
-    main_models_ra[[10]]
-  )
-
-sexual_freq_results <-
-  list(
-    main_models[[11]], 
-    main_models[[12]], 
-    main_models_ra[[11]],
-    main_models_ra[[12]]
-  )
 
 
 # Make tables -------------------------------------------------------------
 
 sink("08_memo/tables/ipv.tex")
 texreg(
-  ipv_results,
-  custom.model.names = c("(1)", "(2)", "(3)", "(4)"),
+  lapply(main_models, get, x = "fit"),
+  custom.model.names = c("IPV", "IPV", "Physical/Sexual", "Physical/Sexual", "Emotional", "Emotional"),
   custom.coef.names = c("Constant", "MMC"),
+  override.se = lapply(lapply(main_models, get, x = "robust"), "[", , 2),
+  override.pvalues = lapply(lapply(main_models, get, x = "robust"), "[", , 4),
   reorder.coef = c(2, 1),
   custom.gof.rows = list(
-    "Covariates" = paste0("\\textrm{", c("No", "Yes", "No", "Yes"), "}"),
-    "Clusters" = c(16, 16, 10, 10)
+    "Covariates" = paste0("\\textrm{", primary_covariates, "}"),
+    "Clusters" = c(16, 16, 16, 16, 16, 16)
   ),  
   reorder.gof = c(1, 2, 4, 3),
   custom.gof.names = c("Adj. R$^2$", "Observations"),
-  omit.coef = "_c",
+  omit.coef = "_[mw]",
   digits = 3,
   include.ci = FALSE,
   table = FALSE,
@@ -105,156 +42,16 @@ texreg(
   include.rmse = FALSE,
   booktabs = TRUE, 
   use.packages = FALSE,
-  custom.note = "\\parbox{.5\\linewidth}{\\vspace{2pt} 
-       \\textit{Notes:} Columns 1 and 2 estimate the effect on the full sample while Columns 3 
-       and 4 estimate effects among the subset of clusters that were randomly allocated.
-       Columns 1 and 3 use the unadjusted estimator while Columns 2 and 4 condition on 
-       pre-treatment violence outcomes using the adjusted estimator. Cluster-robust 
-       standard errors for all estimates are reported in parentheses. \\\\ %stars.}"
+  custom.note = "\\parbox{\\linewidth}{\\vspace{2pt} 
+       \\textit{Notes:} Estimates of the intent-to-treat effects of Modern Man mobile 
+       messaging program on pre-registered primary outcomes using adjusted regression 
+       specification based on the Lin 2013 estimator with wild cluster bootstrap 
+       standard errors in parentheses. Columns 1 and 2 are a composite index of 
+       acts of intimate partner violence. Columns 3 and 4 are a composite index of acts
+       of physical violence. Columns 5 and 6 are a composite index of acts of sexual violence.
+       All indices were constructed using the first factor from IRT models of subitems. 
+       Bootstrapped standard errors estimated using 10,000 replicates. \\\\ %stars.}"
 ) %>% print()
 sink()
 
-sink("08_memo/tables/ipv_freq.tex")
-texreg(
-  ipv_freq_results,
-  custom.model.names = c("(1)", "(2)", "(3)", "(4)"),
-  custom.coef.names = c("Constant", "MMC"),
-  reorder.coef = c(2, 1),
-  custom.gof.rows = list(
-    "Covariates" = paste0("\\textrm{", c("No", "Yes", "No", "Yes"), "}"),
-    "Clusters" = c(16, 16, 10, 10)
-  ),  
-  reorder.gof = c(1, 2, 4, 3),
-  custom.gof.names = c("Adj. R$^2$", "Observations"),
-  omit.coef = "_c",
-  digits = 3,
-  include.ci = FALSE,
-  table = FALSE,
-  include.rsquared = FALSE,
-  include.rmse = FALSE,
-  booktabs = TRUE,
-  use.packages = FALSE,
-  custom.note = "\\parbox{.5\\linewidth}{\\vspace{2pt} 
-       \\textit{Notes:} Columns 1 and 2 estimate the effect on the full sample while Columns 3 
-       and 4 estimate effects among the subset of clusters that were randomly allocated.
-       Columns 1 and 3 use the unadjusted estimator while Columns 2 and 4 condition on 
-       pre-treatment violence outcomes using the adjusted estimator. Cluster-robust 
-       standard errors for all estimates are reported in parentheses. \\\\ %stars.}"
-) %>% print()
-sink()
 
-sink("08_memo/tables/physical.tex")
-texreg(
-  physical_results,
-  custom.model.names = c("(1)", "(2)", "(3)", "(4)"),
-  custom.coef.names = c("Constant", "MMC"),
-  reorder.coef = c(2, 1),
-  custom.gof.rows = list(
-    "Covariates" = paste0("\\textrm{", c("No", "Yes", "No", "Yes"), "}"),
-    "Clusters" = c(16, 16, 10, 10)
-  ),  
-  reorder.gof = c(1, 2, 4, 3),
-  custom.gof.names = c("Adj. R$^2$", "Observations"),
-  omit.coef = "_c",
-  digits = 3,
-  include.ci = FALSE,
-  table = FALSE,
-  include.rsquared = FALSE,
-  include.rmse = FALSE,
-  booktabs = TRUE,
-  use.packages = FALSE,
-  custom.note = "\\parbox{.5\\linewidth}{\\vspace{2pt} 
-       \\textit{Notes:} Columns 1 and 2 estimate the effect on the full sample while Columns 3 
-       and 4 estimate effects among the subset of clusters that were randomly allocated.
-       Columns 1 and 3 use the unadjusted estimator while Columns 2 and 4 condition on 
-       pre-treatment violence outcomes using the adjusted estimator. Cluster-robust 
-       standard errors for all estimates are reported in parentheses. \\\\ %stars.}"
-) %>% print()
-sink()
-
-sink("08_memo/tables/physical_freq.tex")
-texreg(
-  physical_freq_results,
-  custom.model.names = c("(1)", "(2)", "(3)", "(4)"),
-  custom.coef.names = c("Constant", "MMC"),
-  reorder.coef = c(2, 1),
-  custom.gof.rows = list(
-    "Covariates" = paste0("\\textrm{", c("No", "Yes", "No", "Yes"), "}"),
-    "Clusters" = c(16, 16, 10, 10)
-  ),  
-  reorder.gof = c(1, 2, 4, 3),
-  custom.gof.names = c("Adj. R$^2$", "Observations"),
-  omit.coef = "_c",
-  digits = 3,
-  include.ci = FALSE,
-  table = FALSE,
-  include.rsquared = FALSE,
-  include.rmse = FALSE,
-  booktabs = TRUE, 
-  use.packages = FALSE,
-  custom.note = "\\parbox{.5\\linewidth}{\\vspace{2pt} 
-       \\textit{Notes:} Columns 1 and 2 estimate the effect on the full sample while Columns 3 
-       and 4 estimate effects among the subset of clusters that were randomly allocated.
-       Columns 1 and 3 use the unadjusted estimator while Columns 2 and 4 condition on 
-       pre-treatment violence outcomes using the adjusted estimator. Cluster-robust 
-       standard errors for all estimates are reported in parentheses. \\\\ %stars.}"
-) %>% print()
-sink()
-
-sink("08_memo/tables/sexual.tex")
-texreg(
-  sexual_results,
-  custom.model.names = c("(1)", "(2)", "(3)", "(4)"),
-  custom.coef.names = c("Constant", "MMC"),
-  reorder.coef = c(2, 1),
-  custom.gof.rows = list(
-    "Covariates" = paste0("\\textrm{", c("No", "Yes", "No", "Yes"), "}"),
-    "Clusters" = c(16, 16, 10, 10)
-  ),  
-  reorder.gof = c(1, 2, 4, 3),
-  custom.gof.names = c("Adj. R$^2$", "Observations"),
-  omit.coef = "_c",
-  digits = 3,
-  include.ci = FALSE,
-  table = FALSE,
-  include.rsquared = FALSE,
-  include.rmse = FALSE,
-  booktabs = TRUE, 
-  use.packages = FALSE,
-  custom.note = "\\parbox{.5\\linewidth}{\\vspace{2pt} 
-       \\textit{Notes:} Columns 1 and 2 estimate the effect on the full sample while Columns 3 
-       and 4 estimate effects among the subset of clusters that were randomly allocated.
-       Columns 1 and 3 use the unadjusted estimator while Columns 2 and 4 condition on 
-       pre-treatment violence outcomes using the adjusted estimator. Cluster-robust 
-       standard errors for all estimates are reported in parentheses. \\\\ %stars.}"
-) %>% print()
-sink()
-
-sink("08_memo/tables/sexual_freq.tex")
-texreg(
-  sexual_freq_results,
-  custom.model.names = c("(1)", "(2)", "(3)", "(4)"),
-  custom.coef.names = c("Constant", "MMC"),
-  reorder.coef = c(2, 1),
-  custom.gof.rows = list(
-    "Covariates" = paste0("\\textrm{", c("No", "Yes", "No", "Yes"), "}"),
-    "Clusters" = c(16, 16, 10, 10)
-  ),  
-  reorder.gof = c(1, 2, 4, 3),
-  custom.gof.names = c("Adj. R$^2$", "Observations"),
-  omit.coef = "_c",
-  digits = 3,
-  include.ci = FALSE,
-  table = FALSE,
-  include.rsquared = FALSE,
-  include.rmse = FALSE,
-  booktabs = TRUE,
-  use.packages = FALSE,
-  custom.note = "\\parbox{.5\\linewidth}{\\vspace{2pt} 
-       \\textit{Notes:} Columns 1 and 2 estimate the effect on the full sample while Columns 3 
-       and 4 estimate effects among the subset of clusters that were randomly allocated.
-       Columns 1 and 3 use the unadjusted estimator while Columns 2 and 4 condition on 
-       pre-treatment violence outcomes using the adjusted estimator. Cluster-robust 
-       standard errors for all estimates are reported in parentheses. \\\\ %stars.}"
-) %>% print()
-sink()

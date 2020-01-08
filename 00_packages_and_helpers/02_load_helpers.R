@@ -1,7 +1,7 @@
 # Load helper functions ---------------------------------------------------
 
 get_data <- function(path) {
-  paste0("../../../../", path)
+  paste0("../../Data/", path)
 }
 
 specd <- function(x, k) trimws(format(round(x, k), nsmall=k))
@@ -141,19 +141,27 @@ plot_treatment_effects <- function(
 }
 
 
-plot_coefs <- function(plot_data, levels){
-  plot_data$outcome <- factor(plot_data$outcome, levels = levels)
-  ggplot(plot_data, aes(y = outcome, x = estimate)) +
+plot_coefs <- function(plot_data, outcome_levels, type_levels){
+  plot_data$outcome <- factor(plot_data$outcome, levels = outcome_levels)
+  plot_data$type <- factor(plot_data$type, levels = type_levels)
+  ggplot(plot_data, aes(y = fct_reorder(outcome, estimate), x = estimate, shape = index)) +
     geom_point() +
     geom_vline(xintercept = 0, linetype = "dashed", size = .25) +
     geom_segment(aes(x = conf.low, xend = conf.high, y = outcome, yend = outcome), 
-                 alpha = .3) + 
-    facet_grid(adjusted~blocks) + 
+                 alpha = .3) +
+    geom_text(data = filter(plot_data, index == "Yes"), 
+              aes(label = round(estimate, 3)), nudge_y = 0.5, family = "Palatino", size = 2.5
+              ) + 
+    facet_grid(type~adjusted, scales = "free_y", space = "free_y") + 
     labs(
       x = "Treatment Effect",
       y = ""
     ) +
-    mmc_theme()
+    # scale_y_discrete(expand = c(.2, 0)) +
+    coord_cartesian(clip = "off") + 
+    scale_shape_manual(values = c(19, 5), guide = FALSE) +
+    mmc_theme() +
+    theme()
 }
 
 plot_balance <- function(plot_data, levels){
@@ -176,10 +184,11 @@ main_estimator <-
             covariates = NULL,
             treatment = "treatment",
             data,
-            clusters = NULL,
-            se_type = "HC2") {
+            cluster = NULL,
+            se_type = "HC2",
+            sims) {
     
-    if (is.na(covariates) | is.null(covariates)) {
+    if (is.null(covariates)) {
       f <- reformulate(treatment, outcome)
     } else {
       f <- reformulate(
@@ -187,21 +196,71 @@ main_estimator <-
         response = outcome
       )
     }
-    if (!is.null(clusters)) {
-      se_type <- "CR2" 
-      clusters <- sym(clusters)
-    }
     
-    lm_robust(
+    fit <- lm(
       formula = f,
       data = data,
-      clusters = !!clusters,
-      se_type = se_type
     )
+    
+    if (!is.null(cluster)) {
+      fc <- reformulate(cluster)
+    } else {
+      fc <- NULL
+    }
+    
+    if (se_type %in% c("xy", "residual") | grepl("^wild", se_type)) {
+      stopifnot(!is.null(sims))
+      vcov <- vcovBS(
+        fit,
+        cluster = fc,
+        R = sims,
+        type = se_type,
+        start = TRUE
+      )
+    } else if (grepl("^HC[0-3]", se_type)) {
+      if (is.null(cluster)) {
+        vcov <- vcovHC(
+          fit,
+          type = se_type
+        )
+      } else {
+        vcov <- vcovCL(
+          fit,
+          cluster = fc,
+          type = se_type
+        )
+      }
+    } else if (grepl("^classic", se_type)) {
+      vcov <- vcov(fit)
+    } else {
+      stop(paste0("Error: standard error type ", se_type, " not found."))
+    }
+    
+    robust <- coeftest(fit, vcov = vcov)
+    
+    est_obj <- list(
+      fit = fit,
+      robust = robust
+    )
+    
+    class(est_obj) <- "main_estimator"
+    
+    return(est_obj)
   }
 
+
+# Function to grab covariates ---------------------------------------------
+
+get_covariates <- function(outcome_name, covariate_frame){
+  if(!outcome_name %in% covariate_frame$outcome) {
+    print(paste0("No covariates found for ",outcome_name,".\nDid you use the right lasso dataset?"))
+    return(NULL)}
+  covariate_frame %>% filter(outcome == outcome_name) %>% select(term) %>% 
+    unlist()
+}
+
 # source("00_packages_and_helpers/helpers_analysis_functions.R")
-# source("00_packages_and_helpers/helpers_codebook.R")
-# source("00_packages_and_helpers/helpers_p_value_functions.R")
+source("00_packages_and_helpers/helpers_codebook.R")
+ source("00_packages_and_helpers/helpers_p_value_functions.R")
 # source("00_packages_and_helpers/helpers_plot_functions.R")
 # source("00_packages_and_helpers/helpers_table_functions.R")

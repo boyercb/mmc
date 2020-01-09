@@ -3,7 +3,7 @@ complier_covariates <- c(
 )
 
 covariate_means <- 
-  el_imputed %>%
+  el %>%
   filter(complier_m == 1) %>%
   select(treatment, complier_covariates) %>%
   gather(covariate, value, -treatment) %>%
@@ -16,7 +16,7 @@ complier_balance_models <-
       function (x) {
         main_estimator(
           outcome = x,
-          data = filter(el_imputed, complier_m == 1),
+          data = filter(el, complier_m == 1),
           cluster = "block_id",
           se_type = "wild",
           sims = sims

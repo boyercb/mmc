@@ -10,7 +10,7 @@ secondary_mens_models <-
          main_estimator(
            outcome = x,
            covariates = if (y == "Yes") get_covariates(x, selected_covariates),
-           data = el_imputed,
+           data = el,
            cluster = "block_id", 
            se_type = "wild",
            sims = sims

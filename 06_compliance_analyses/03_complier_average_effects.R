@@ -7,7 +7,7 @@ main_complier_models <-
          main_estimator(
            outcome = x,
            covariates = if (y == "Yes") get_covariates(x, selected_covariates),
-           data = filter(el_imputed, complier_m == 1),
+           data = filter(el, complier_m == 1),
            cluster = "block_id", 
            se_type = "wild",
            sims = sims

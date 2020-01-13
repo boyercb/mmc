@@ -169,15 +169,19 @@ mens_invariant_covariates <-
 
 womens_invariant_covariates <- 
   c(
-    #"age_w",
+    "age_w",
     "hscl_index_w",
     "relationship_years_w",
     "mother_w"
   )
 
+baseline_covariates <-
+  names(el)[grepl("_bl$", names(el))]
+
 invariant_covariates <- c(
   mens_invariant_covariates,
   womens_invariant_covariates,
+  baseline_covariates,
   pre_violence_outcomes
 )
 

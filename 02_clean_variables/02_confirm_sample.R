@@ -6,6 +6,7 @@ stopifnot(sum(duplicated(elw$man_uuid)) == 0)
 drop_m <- c(
   "p_trusts_r1",
   "p_trusts_r2",
+  "mmc_join",
   "shocks_theftamount",
   "converted_toislam",
   "calm_method_o_num"
@@ -81,11 +82,14 @@ drop_bl <- c(
   "expend_LD",
   "expend_USD",
   "expend_PPP",
-  "ownhouse2"
+  "ownhouse2",
+  "visit_date",
+  "listing_key"
 )
 
 # drop variables 
-bl <- bl[, !names(bl) %in% names(elm)]
+bl <- bl[, names(bl)[!names(bl) %in% names(elm)[!names(elm) %in% c('uuid_roster')]]]
 bl <- bl[, !names(bl) %in% drop_bl]
 elm <- elm[, !names(elm) %in% drop_m]
 elw <- elw[, !names(elw) %in% drop_w]
+

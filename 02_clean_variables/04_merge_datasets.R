@@ -46,14 +46,17 @@ telerivet_vars <- c(
 key_merge <- select(elm, uuid_roster, key_vars)
 elm_merge <- select(elm, -key_vars)
 elw_merge <- select(elw, -key_vars)
+bl_merge <- bl
 telerivet_merge <- select(telerivet, uuid_roster, telerivet_vars)
 
 # add suffixes
 names(elm_merge) <- paste0(names(elm_merge), "_m")
 names(elw_merge) <- paste0(names(elw_merge), "_w")
+names(bl_merge) <- paste0(names(bl), "_bl")
 
 names(elm_merge)[names(elm_merge) == "uuid_roster_m"] <- "uuid_roster" 
 names(elw_merge)[names(elw_merge) == "man_uuid_w"] <- "man_uuid" 
+names(bl_merge)[names(bl_merge) == "uuid_roster_bl"] <- "uuid_roster" 
 
 # merge key data
 el <- left_join(el, key_merge, by = "uuid_roster")
@@ -64,11 +67,14 @@ el <- left_join(el, elm_merge, by = "uuid_roster")
 # merge women's data
 el <- left_join(el, elw_merge, by = c("uuid_roster" = "man_uuid"))
 
+# merge baseline data
+el <- left_join(el, bl_merge, by = "uuid_roster")
+
 # merge telerivet data
 el <- left_join(el, telerivet_merge, by = "uuid_roster")
 
 # create indicator variable for missingness
-el$man_only <- as.numeric(is.na(el$endline_uuid_w))
+el$man_only <- as.numeric(is.na(el$age_w))
 
 
 # create wide imputed dataset ---------------------------------------------
@@ -102,13 +108,16 @@ elw_imputed$man_uuid <- as.character(elw_imputed$man_uuid)
 key_merge_imp <- select(elm_imputed, uuid_roster, key_vars)
 elm_merge_imp <- select(elm_imputed, -key_vars)
 elw_merge_imp <- select(elw_imputed, -key_vars)
+bl_merge_imp <- bl_imputed
 
 # add suffixes
 names(elm_merge_imp) <- paste0(names(elm_merge_imp), "_m")
 names(elw_merge_imp) <- paste0(names(elw_merge_imp), "_w")
+names(bl_merge_imp) <- paste0(names(bl_merge_imp), "_bl")
 
 names(elm_merge_imp)[names(elm_merge_imp) == "uuid_roster_m"] <- "uuid_roster" 
 names(elw_merge_imp)[names(elw_merge_imp) == "man_uuid_w"] <- "man_uuid" 
+names(bl_merge_imp)[names(bl_merge_imp) == "uuid_roster_bl"] <- "uuid_roster" 
 
 # merge key data
 el_imputed <- left_join(el_imputed, key_merge_imp, by = "uuid_roster")
@@ -119,11 +128,14 @@ el_imputed <- left_join(el_imputed, elm_merge_imp, by = "uuid_roster")
 # merge women's data
 el_imputed <- left_join(el_imputed, elw_merge_imp, by = c("uuid_roster" = "man_uuid"))
 
+# merge baseline data
+el_imputed <- left_join(el_imputed, bl_merge_imp, by = "uuid_roster")
+
 # merge telerivet data
 el_imputed <- left_join(el_imputed, telerivet_merge, by = "uuid_roster")
 
 # create indicator variable for missingness
-el_imputed$man_only <- as.numeric(is.na(el_imputed$endline_uuid_w))
+el_imputed$man_only <- as.numeric(is.na(el_imputed$age_w))
 
 # create long dataset -----------------------------------------------------
 

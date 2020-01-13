@@ -36,13 +36,16 @@ source("02_clean_variables/03_impute_missing_responses.R")
 
 source("02_clean_variables/04_merge_datasets.R")
 
-source("02_clean_variables/05_impute_missing_partners.R")
+#source("02_clean_variables/05_impute_missing_partners.R")
 
 source("02_clean_variables/06_create_variable_lists.R")
 
-source("02_clean_variables/07_scale_and_center.R")
+source("02_clean_variables/07_create_pooled_datasets.R")
 
-# source("02_clean_variables/08_create_pooled_datasets.R")
+source("02_clean_variables/08_scale_and_center.R")
+
+source("02_clean_variables/09_subset_to_final_sample.R")
+
 
 
 # Lasso covariate selection -----------------------------------------------
@@ -61,12 +64,10 @@ source("03_covariate_selection/02_select_covariates.R")
 # Main analyses -----------------------------------------------------------
 
 source("04_main_analyses/01_primary_outcomes.R")
-
-# source("04_main_analyses/02_pooled_outcomes.R")
  
-source("04_main_analyses/03_subitems.R")
+source("04_main_analyses/02_subitems.R")
  
-source("04_main_analyses/04_plots.R")
+source("04_main_analyses/03_plots.R")
 
 
 # Secondary analyses ------------------------------------------------------
@@ -95,14 +96,15 @@ source("07_robustness_checks/03_attrition.R")
 
 source("07_robustness_checks/04_inference.R")
 
-source("07_robustness_checks/05_block_assignment_type.R")
+source("07_robustness_checks/05_pooled_outcomes.R")
 
-source("07_robustness_checks/06_missing_data_models.R")
+source("07_robustness_checks/06_block_assignment_type.R")
 
-source("07_robustness_checks/07_bayes.R")
+source("07_robustness_checks/07_missing_data_models.R")
+
+source("07_robustness_checks/08_bayes.R")
 
 
-# attrition
 # compliance
 # standard errors
 # random vs. non-random blocks

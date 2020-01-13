@@ -10,7 +10,7 @@ main_models <-
          main_estimator(
            outcome = x,
            covariates = if (y == "Yes") get_covariates(x, selected_covariates),
-           data = el,
+           data = el_imputed,
            cluster = "block_id", 
            se_type = "wild",
            sims = sims
@@ -39,7 +39,7 @@ texreg(
   ),  
   reorder.gof = c(1, 2, 4, 3),
   custom.gof.names = c("Adj. R$^2$", "Observations"),
-  omit.coef = "_[mw]",
+  omit.coef = "_[c]",
   digits = 3,
   include.ci = FALSE,
   table = FALSE,

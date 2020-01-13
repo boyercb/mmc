@@ -24,7 +24,7 @@ if (run_lasso) {
 } else {
   selected_covariates <-
 		read.csv(
-			"03_covariate_selection/selected_covariates",
+			"03_covariate_selection/selected_covariates.csv",
 			stringsAsFactors = FALSE
 		)
 	

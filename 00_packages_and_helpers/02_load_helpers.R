@@ -51,9 +51,9 @@ plot_treatment_effects <- function(
     plot_df <-
       plot_df %>%
       mutate(
-        pred = predictions$fit[, 1],
-        conf95_low = predictions$fit[, 2],
-        conf95_high = predictions$fit[, 3],
+        pred = predictions[, 1],
+        conf95_low = predictions[, 2],
+        conf95_high = predictions[, 3],
         label = specd(pred, 3)
       )
   

@@ -22,16 +22,16 @@ pooled_p1 <- plot_treatment_effects(
   fit = main_models[[2]]$fit,
   outcome = "ipv_control_2pl_irt_index_w",
   data = pooled_el,
-  type = "individual",
+  type = "cluster",
   color = "block_rand",
   color_name = "Manually assigned",
   color_values = c("black", "red"),
   color_labels = c("No", "Yes"),
-  title = "All blocks (N = 16)",
+  title = "",
   ylabel = "IPV Index"
 )
 
-pdf("08_memo/figures/ipv_pooled.pdf", width = 10, height = 6)
+pdf("08_memo/figures/ipv_pooled.pdf", width = 9, height = 6)
 pooled_p1
 dev.off()
 

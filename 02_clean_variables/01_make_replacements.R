@@ -214,6 +214,31 @@ elw <-
     xperp = replace(xperp, ever_perp == 0, 0)
   )
 
+elw <-
+  elw %>%
+  mutate(
+    # ipv defined as physical + sexual
+    ipv = as.numeric(slap2 + push2 + fist2 + kick2 + choke2 + gun2 + 
+                       forcesex2 + pressuresex2 + degrade2 > 0),
+    ipv_freq = slap3 + push3 + fist3 + kick3 + choke3 + gun3 + 
+      forcesex3 + pressuresex3 + degrade3,
+    pre_ipv = as.numeric(slap4 + push4 + fist4 + kick4 + choke4 + gun4 + 
+                           forcesex4 + pressuresex4 + degrade4 > 0),
+    pre_ipv_freq = slap4 + push4 + fist4 + kick4 + choke4 + gun4 + 
+      forcesex4 + pressuresex4 + degrade4,
+    
+    # physical violence 
+    physical = as.numeric(slap2 + push2 + fist2 + kick2 + choke2 + gun2 > 0),
+    physical_freq = slap3 + push3 + fist3 + kick3 + choke3 + gun3,
+    pre_physical = as.numeric(slap4 + push4 + fist4 + kick4 + choke4 + gun4 > 0),
+    pre_physical_freq = slap4 + push4 + fist4 + kick4 + choke4 + gun4,
+    
+    # sexual violence
+    sexual = as.numeric(forcesex2 + pressuresex2 + degrade2 > 0),
+    sexual_freq = forcesex3 + pressuresex3 + degrade3,
+    pre_sexual = as.numeric(forcesex4 + pressuresex4 + degrade4 > 0),
+    pre_sexual_freq = forcesex4 + pressuresex4 + degrade4
+  )
 
 # baseline household survey -----------------------------------------------
 

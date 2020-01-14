@@ -5,7 +5,7 @@ rm(list = ls())
 
 sims <- 10000
 
-run_imputations <- FALSE 
+run_imputations <- TRUE 
 
 
 # Packages and helper functions -------------------------------------------
@@ -50,7 +50,7 @@ source("02_clean_variables/09_subset_to_final_sample.R")
 
 # Lasso covariate selection -----------------------------------------------
 
-run_lasso <- TRUE
+run_lasso <- FALSE
 lasso_sims <- 10
 lasso_folds <- 30
 
@@ -100,9 +100,11 @@ source("07_robustness_checks/05_pooled_outcomes.R")
 
 source("07_robustness_checks/06_block_assignment_type.R")
 
-source("07_robustness_checks/07_missing_data_models.R")
+source("07_robustness_checks/07_measurement.R")
 
-source("07_robustness_checks/08_bayes.R")
+source("07_robustness_checks/08_missing_data_models.R")
+
+source("07_robustness_checks/09_bayes.R")
 
 
 # compliance

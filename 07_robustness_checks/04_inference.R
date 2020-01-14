@@ -81,6 +81,10 @@ inference_table <-
   )
 
 
+# randomization inference -------------------------------------------------
+
+
+
 # Make tables -------------------------------------------------------------
 
 sink("08_memo/tables/inference.tex")

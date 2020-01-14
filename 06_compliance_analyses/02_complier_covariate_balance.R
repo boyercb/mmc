@@ -8,7 +8,7 @@ covariate_means <-
   select(treatment, complier_covariates) %>%
   gather(covariate, value, -treatment) %>%
   group_by(covariate, treatment) %>%
-  summarise(mean = mean(value)) %>%
+  summarise(mean = mean(value, na.rm = TRUE)) %>%
   spread(treatment, mean, sep = "_")
 
 complier_balance_models <-
@@ -43,8 +43,9 @@ kable(
   digits = 2,
   escape = FALSE,
   align = "lcccc",
-  booktabs = TRUE
+  booktabs = TRUE,
+  longtable = TRUE
 ) %>% 
-  kable_styling(latex_options = "HOLD_position") %>%
+  kable_styling(latex_options = c("repeat_header", "HOLD_position")) %>%
   add_header_above(c(" ", "(1)", "(2)", "Diff", " "),line = F)
 sink()

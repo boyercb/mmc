@@ -144,11 +144,17 @@ womens_outcomes <-
     "partnerresolve_index_w"
   )
 
+demand_outcomes <-
+  c("dem_charity_m",
+    "dem_neighb_m",
+    "dem_charity_w",
+    "dem_neighb_w")
 
 outcomes <- c(
   violence_outcomes,
   mens_outcomes,
-  womens_outcomes
+  womens_outcomes,
+  demand_outcomes
 )
 
 

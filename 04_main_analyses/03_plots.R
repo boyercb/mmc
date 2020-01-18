@@ -123,7 +123,8 @@ plot_coefs(
 dev.off()
 
 pdf("08_memo/figures/densities.pdf", width = 10, height = 6)
-el_imputed %>%
+p <- 
+  el_imputed %>%
   select(violence_outcomes, treatment) %>%
   gather(key, value, -treatment) %>%
 ggplot(., aes(x = value, fill = factor(treatment))) +
@@ -132,7 +133,8 @@ ggplot(., aes(x = value, fill = factor(treatment))) +
   scale_fill_manual(name = "",
                     labels = c("Control", "MMC"),
                     values = c("black", "grey90")) +
-  mmc_theme() 
+  mmc_theme()
+print(p)
 dev.off()
 
 

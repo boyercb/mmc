@@ -16,8 +16,7 @@ subitem_models <-
            covariates = if (y == "Yes") get_covariates("ipv_control_2pl_irt_index_w", selected_covariates),
            data = el,
            cluster = "block_id", 
-           se_type = "wild",
-           sims = sims
+           se_type = "HC3"
          )
        })
 

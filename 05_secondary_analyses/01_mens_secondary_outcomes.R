@@ -13,6 +13,7 @@ secondary_mens_models <-
            data = el_imputed,
            cluster = "block_id", 
            se_type = "wild",
+           studentized = TRUE,
            sims = sims
          )
        })
@@ -79,10 +80,11 @@ texreg(
   override.pvalues = lapply(lapply(attitudes_results_m, get, x = "robust"), "[", , 4),
   reorder.coef = c(2, 1),
   custom.gof.rows = list(
+    "Bootstrap $p$-value" = specd(sapply(lapply(attitudes_results_m, get, x = "bs"), get, x = "boot.p"), 3),
     "Covariates" = paste0("\\textrm{", c("Yes", "No", "Yes", "No"), "}"),
     "Clusters" = c(16, 16, 16, 16)
   ),
-  reorder.gof = c(1, 2, 4, 3),
+  reorder.gof = c(1, 2, 3, 5, 4),
   custom.gof.names = c("Adj. R$^2$", "Observations"),
   omit.coef = "_c",
   digits = 3,
@@ -95,12 +97,13 @@ texreg(
   custom.note = "\\parbox{\\linewidth}{\\vspace{2pt}
        \\textit{Notes:} Estimates of the intent-to-treat effects of Modern Man mobile
        messaging program on secondary men's outcomes using adjusted regression
-       specification based on the Lin 2013 estimator with wild cluster bootstrap
+       specification based on the Lin 2013 estimator with CR2 cluster-robust
        standard errors in parentheses. Columns 1 and 2 are a composite index of
        whether man's attitudes justify use of violence against women. Columns 3 and 4
        are a composite index of men's perceptions about whether their community justifies
        the use of violence. All indices were constructed as sums of subitems coded in
-       same substantive direction. Bootstrapped standard errors estimated using 10,000 replicates. \\\\ %stars.}"
+       same substantive direction. Bootstrap $p$-value estimated using 10,000 replicates of 
+       wild cluster bootstrap-$t$. \\\\ %stars.}"
 ) %>% print()
 sink()
 
@@ -118,10 +121,11 @@ texreg(
   override.pvalues = lapply(lapply(dm_etc_results_m, get, x = "robust"), "[", , 4),
   reorder.coef = c(2, 1),
   custom.gof.rows = list(
+    "Bootstrap $p$-value" = specd(sapply(lapply(dm_etc_results_m, get, x = "bs"), get, x = "boot.p"), 3),
     "Covariates" = paste0("\\textrm{", c("Yes", "No", "Yes", "No"), "}"),
     "Clusters" = c(16, 16, 16, 16)
   ),
-  reorder.gof = c(1, 2, 4, 3),
+  reorder.gof = c(1, 2, 3, 5, 4),
   custom.gof.names = c("Adj. R$^2$", "Observations"),
   omit.coef = "_c",
   digits = 3,
@@ -134,12 +138,12 @@ texreg(
   custom.note = "\\parbox{\\linewidth}{\\vspace{2pt}
        \\textit{Notes:} Estimates of the intent-to-treat effects of Modern Man mobile
        messaging program on secondary men's outcomes using adjusted regression
-       specification based on the Lin 2013 estimator with wild cluster bootstrap
+       specification based on the Lin 2013 estimator with CR2 cluster-robust
        standard errors in parentheses. Columns 1 and 2 are a composite index of
        women's involvement in decision-making. Columns 3 and 4 are a composite index of 
        whether men feel supported by their partner. All indices were constructed as sums of 
-       subitems coded in same substantive direction. Bootstrapped standard errors estimated 
-       using 10,000 replicates. \\\\ %stars.}"
+       subitems coded in same substantive direction. Bootstrap $p$-value estimated using 10,000
+       replicates of wild cluster bootstrap-$t$. \\\\ %stars.}"
 ) %>% print()
 sink()
 
@@ -157,10 +161,11 @@ texreg(
   override.pvalues = lapply(lapply(sex_results_m, get, x = "robust"), "[", , 4),
   reorder.coef = c(2, 1),
   custom.gof.rows = list(
+    "Bootstrap $p$-value" = specd(sapply(lapply(sex_results_m, get, x = "bs"), get, x = "boot.p"), 3),
     "Covariates" = paste0("\\textrm{", c("Yes", "No", "Yes", "No"), "}"),
     "Clusters" = c(16, 16, 16, 16)
   ),
-  reorder.gof = c(1, 2, 4, 3),
+  reorder.gof = c(1, 2, 3, 5, 4),
   custom.gof.names = c("Adj. R$^2$", "Observations"),
   omit.coef = "_c",
   digits = 3,
@@ -173,13 +178,13 @@ texreg(
   custom.note = "\\parbox{\\linewidth}{\\vspace{2pt}
        \\textit{Notes:} Estimates of the intent-to-treat effects of Modern Man mobile
        messaging program on secondary men's outcomes using adjusted regression
-       specification based on the Lin 2013 estimator with wild cluster bootstrap
+       specification based on the Lin 2013 estimator with CR2 cluster-robust
        standard errors in parentheses. Columns 1 and 2 are a composite index of
        whether the man justifies negative responses to woman's refusal of sex. Columns 3 and 4
        are a composite index of men's value of woman's pleasure during sex. All indices were
        constructed as sums of subitems coded insame substantive direction. 
-       Bootstrapped standard errors estimated using 10,000 replicates. \\\\ %stars.}"
-) %>% print()
+       Bootstrap $p$-value estimated using 10,000 replicates of wild cluster bootstrap-$t$. \\\\ %stars.}"
+  ) %>% print()
 sink()
 
 sink("08_memo/tables/comm_results_m.tex")
@@ -200,10 +205,11 @@ texreg(
   override.pvalues = lapply(lapply(comm_results_m, get, x = "robust"), "[", , 4),
   reorder.coef = c(2, 1),
   custom.gof.rows = list(
+    "Bootstrap $p$-value" = specd(sapply(lapply(comm_results_m, get, x = "bs"), get, x = "boot.p"), 3),
     "Covariates" = paste0("\\textrm{", c("Yes", "No", "Yes", "No", "Yes", "No", "Yes", "No"), "}"),
     "Clusters" = c(16, 16, 16, 16, 16, 16, 16, 16)
   ),
-  reorder.gof = c(1, 2, 4, 3),
+  reorder.gof = c(1, 2, 3, 5, 4),
   custom.gof.names = c("Adj. R$^2$", "Observations"),
   omit.coef = "_c",
   digits = 3,
@@ -216,15 +222,15 @@ texreg(
   custom.note = "\\parbox{\\linewidth}{\\vspace{2pt}
        \\textit{Notes:} Estimates of the intent-to-treat effects of Modern Man mobile
        messaging program on secondary men's outcomes using adjusted regression
-       specification based on the Lin 2013 estimator with wild cluster bootstrap
+       specification based on the Lin 2013 estimator with CR2 cluster-robust
        standard errors in parentheses. Columns 1 and 2 are a composite index of
        how often the couple discusses relationship and household practicalities. 
        Columns 3 and 4 are a composite index of couple's shared discussion about each other.
        Columns 5 and 6 are a composite index of frequency of good expressions between couple.
        Columns 7 and 8 are a composite index of the man's enjoyment of mutual activities with 
        his female partner. All indices were constructed as sums of subitems coded in
-       same substantive direction. Bootstrapped standard errors estimated using 10,000 
-       replicates. \\\\ %stars.}"
+       same substantive direction. Bootstrap $p$-value estimated using 10,000 replicates of wild
+       cluster bootstrap-$t$. \\\\ %stars.}"
 ) %>% print()
 sink()
 
@@ -246,10 +252,11 @@ texreg(
   override.pvalues = lapply(lapply(conflict_results_m, get, x = "robust"), "[", , 4),
   reorder.coef = c(2, 1),
   custom.gof.rows = list(
+    "Bootstrap $p$-value" = specd(sapply(lapply(conflict_results_m, get, x = "bs"), get, x = "boot.p"), 3),
     "Covariates" = paste0("\\textrm{", c("Yes", "No", "Yes", "No", "Yes", "No", "Yes", "No"), "}"),
     "Clusters" = c(16, 16, 16, 16, 16, 16, 16, 16)
   ),
-  reorder.gof = c(1, 2, 4, 3),
+  reorder.gof = c(1, 2, 3, 5, 4),
   custom.gof.names = c("Adj. R$^2$", "Observations"),
   omit.coef = "_c",
   digits = 3,
@@ -262,14 +269,15 @@ texreg(
   custom.note = "\\parbox{\\linewidth}{\\vspace{2pt}
        \\textit{Notes:} Estimates of the intent-to-treat effects of Modern Man mobile
        messaging program on secondary men's outcomes using adjusted regression
-       specification based on the Lin 2013 estimator with wild cluster bootstrap
+       specification based on the Lin 2013 estimator with CR2 cluster-robust
        standard errors in parentheses. Columns 1 and 2 are a composite index of
        the man's report of the couple's ability to resolve conflict. Columns 3 and 4
        are a composite index of the man's report of how frequently he and his partner argue. 
        Columns 5 and 6 are a composite index of the man's report of his partner's positive conflict 
        resolution skills. Columns 7 and 8 are a composite index of the man's ability to emotionally regulate
        during conflict. All indices were constructed as sums of subitems coded in same 
-       substantive direction. Bootstrapped standard errors estimated using 10,000 replicates. \\\\ %stars.}"
+       substantive direction. Bootstrap $p$-value estimated using 10,000 replicates of wild cluster
+       bootstrap-$t$. \\\\ %stars.}"
 ) %>% print()
 sink()
 

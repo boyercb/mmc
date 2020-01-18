@@ -14,16 +14,18 @@ balance_models <-
           data = el_imputed,
           cluster = "block_id",
           se_type = "wild",
+          studentized = TRUE,
           sims = sims
         )
       })
 
 balance_results <- lapply(balance_models, get, x = "robust")
+balance_bs <- lapply(balance_models, get, x = "bs")
 
 balance_results <- data.frame(
   covariate = invariant_covariates,
   diff = sapply(balance_results, "[", 2, 1),
-  p.value = sapply(balance_results, "[", 2, 4),
+  p.value = sapply(balance_bs, get, x = "boot.p"),
   stringsAsFactors = FALSE
 )
 
@@ -31,16 +33,18 @@ balance_results <- left_join(covariate_means, balance_results, by = "covariate")
 
 balance_results$covariate <- paste0("\\texttt{", gsub("_", "\\\\_", balance_results$covariate), "}")
 sink("08_memo/tables/balance_results.tex")
-kable(
-  x = balance_results,
-  format = "latex",
-  col.names = c("Covariate", "MMC", "Control", "(1) - (2)", "$p$-value"),
-  digits = 2,
-  escape = FALSE,
-  align = "lcccc",
-  longtable = TRUE,
-  booktabs = TRUE
-) %>% 
+tab <- 
+  kable(
+    x = balance_results,
+    format = "latex",
+    col.names = c("Covariate", "MMC", "Control", "(1) - (2)", "$p$-value"),
+    digits = 2,
+    escape = FALSE,
+    align = "lcccc",
+    longtable = TRUE,
+    booktabs = TRUE
+  ) %>%
   kable_styling(latex_options = c("HOLD_position", "repeat_header")) %>%
-  add_header_above(c(" ", "(1)", "(2)", "Diff", " "),line = F)
+  add_header_above(c(" ", "(1)", "(2)", "Diff", " "), line = F) 
+print(tab)
 sink()

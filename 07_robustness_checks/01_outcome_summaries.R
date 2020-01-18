@@ -67,18 +67,21 @@ outcome_labels <- tibble(
 )
 
 pdf("08_memo/figures/distribution_violence.pdf", width = 8, height = 4, onefile = FALSE)
-el_imputed %>%
+p <- 
+  el_imputed %>%
   select(violence_outcomes) %>%
   gather() %>%
   left_join(outcome_labels, by = "key") %>%
   ggplot(., aes(x = value)) + 
   geom_histogram(bins = 50) +
   facet_wrap(~order, scales = "free", labeller = label_wrap_gen()) +
-  mmc_theme() 
+  mmc_theme()
+print(p)
 dev.off()
 
 pdf("08_memo/figures/distribution_mens.pdf", width = 8, height = 6, onefile = FALSE)
-el_imputed %>%
+p <- 
+  el_imputed %>%
   select(mens_outcomes) %>%
   gather() %>%
   left_join(outcome_labels, by = "key") %>%
@@ -86,15 +89,18 @@ el_imputed %>%
   geom_histogram(bins = 50) +
   facet_wrap(~order, scales = "free", labeller = label_wrap_gen()) +
   mmc_theme()
+print(p)
 dev.off()
 
 pdf("08_memo/figures/distribution_womens.pdf", width = 8, height = 6, onefile = FALSE)
-el_imputed %>%
+p <- 
+  el_imputed %>%
   select(womens_outcomes) %>%
   gather() %>%
   left_join(outcome_labels, by = "key") %>%
   ggplot(., aes(x = value)) + 
   geom_histogram(bins = 50) +
   facet_wrap(~order, scales = "free", labeller = label_wrap_gen()) +
-  mmc_theme()
+  mmc_theme() 
+print(p)
 dev.off()

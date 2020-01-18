@@ -1,15 +1,22 @@
 # variance estimators -----------------------------------------------------
 
-se_outcomes <- rep(violence_outcomes, each = 9)
+se_outcomes <- 
+  rep(violence_outcomes, each = 14)
+
 se_types <-
   rep(
     c(
-      "wild-rademacher",
       "HC0",
       "HC1",
       "HC2",
       "HC3",
       "xy",
+      "wild-rademacher",
+      "wild-mammen",
+      "wild-norm",
+      "wild-webb",
+      "xy",
+      "wild-rademacher",
       "wild-mammen",
       "wild-norm",
       "wild-webb"
@@ -17,19 +24,26 @@ se_types <-
     length(violence_outcomes)
   )
 
+se_studentized <-
+  rep(c(rep("No", 9), rep("Yes", 5)), length(violence_outcomes))
+
 inference_models <-
-  map2(se_outcomes,
-       se_types,
-       function (x, y) {
-         main_estimator(
-           outcome = x,
-           covariates = get_covariates(x, selected_covariates),
-           data = el_imputed,
-           cluster = "block_id", 
-           se_type = y,
-           sims = sims
-         )
-       })
+  pmap(
+    list(x = se_outcomes,
+         y = se_types,
+         z = se_studentized
+    ),
+    function (x, y, z) {
+      main_estimator(
+        outcome = x,
+        covariates = get_covariates(x, selected_covariates),
+        data = el_imputed,
+        cluster = "block_id",
+        se_type = y,
+        studentized = if (z == "Yes") TRUE else FALSE,
+        sims = sims
+      )
+    })
 
 
 # randomization inference -------------------------------------------------
@@ -47,40 +61,63 @@ ri_models <-
       })
 
 
-
-
 # compile results ---------------------------------------------------------
 
 inference_vcovs <- lapply(inference_models, get, x = "robust")
+inference_bs <- lapply(inference_models, get, x = "bs")
+inference_bs <- inference_bs[sapply(inference_bs, function (x) !is.null(x))]
 ri_pvals <- sapply(ri_models, get, x = "ri_pval")
 
 inference_table <-
   tibble(
     outcome = c(se_outcomes, violence_outcomes),
-    se_type = c(se_types, rep("ri", 3)),
-    std.error = c(sapply(inference_vcovs, "[", 2, 2), rep(NA, 3)),
-    p.value = c(sapply(inference_vcovs, "[", 2, 4), ri_pvals)
+    se_type = c(se_types, rep("ri", length(violence_outcomes))),
+    se_studentized = c(se_studentized, rep("No", length(violence_outcomes))),
+    std.error = c(
+      sapply(inference_vcovs[1:9], "[", 2, 2), 
+      rep(NA, 5),
+      sapply(inference_vcovs[15:23], "[", 2, 2), 
+      rep(NA, 5),
+      sapply(inference_vcovs[29:37], "[", 2, 2), 
+      rep(NA, 5),
+      rep(NA, length(violence_outcomes))
+    ),
+    p.value = c(
+      sapply(inference_vcovs[1:9], "[", 2, 4),
+      sapply(inference_bs[1:5], get, x = "boot.p"),
+      sapply(inference_vcovs[15:23], "[", 2, 4),
+      sapply(inference_bs[6:10], get, x = "boot.p"),
+      sapply(inference_vcovs[29:37], "[", 2, 4),
+      sapply(inference_bs[11:15], get, x = "boot.p"),
+      ri_pvals
+    )
   )
 
 se_order <- c(
-  "HC0",
-  "HC1",
-  "HC2",
-  "HC3",
-  "wild-rademacher",
-  "wild-mammen",
-  "wild-norm",
-  "wild-webb",
-  "xy",
-  "ri"
+  "HC0_No",
+  "HC1_No",
+  "HC2_No",
+  "HC3_No",
+  "wild-rademacher_No",
+  "wild-mammen_No",
+  "wild-norm_No",
+  "wild-webb_No",
+  "xy_No",
+  "wild-rademacher_Yes",
+  "wild-mammen_Yes",
+  "wild-norm_Yes",
+  "wild-webb_Yes",
+  "xy_Yes",
+  "ri_No"
 )
 
 inference_table <-
   inference_table %>%
-  gather(key, value, -outcome, -se_type) %>%
+  gather(key, value, -outcome, -se_type, -se_studentized) %>%
   spread(outcome, value) %>%
-  arrange(se_type, desc(key)) %>%
+  arrange(se_type, se_studentized, desc(key)) %>%
   mutate_if(is.numeric, function(x) ifelse(is.na(x), "-", as.character(specd(x, 3)))) %>%
+  unite("se_type", se_type, se_studentized, remove = TRUE) %>%
   arrange(match(se_type, se_order)) %>%
   mutate(
     ipv_control_2pl_irt_index_w =
@@ -108,17 +145,21 @@ inference_table <-
         se_type
       ),
     se_type = case_when(
-      se_type == "HC0" ~ "CR0",
-      se_type == "HC1" ~ "CR1",
-      se_type == "HC2" ~ "CR2",
-      se_type == "HC3" ~ "CR3",
-      se_type == "wild-rademacher" ~ "wild-cluster bootstrap-se (Rademacher)",
-      se_type == "wild-mammen" ~ "wild-cluster bootstrap-se (Mammen)",
-      se_type == "wild-norm" ~ "wild-cluster bootstrap-se (Norm)",
-      se_type == "wild-webb" ~ "wild-cluster bootstrap-se (Webb)",
-      se_type == "xy" ~ "cluster pairs bootstrap-se",
-      se_type == "ri" ~ "randomization inference $\\beta$",
-      se_type == "ri" ~ "randomization inference $t$"
+      se_type == "HC0_No" ~ "CR0",
+      se_type == "HC1_No" ~ "CR1",
+      se_type == "HC2_No" ~ "CR2",
+      se_type == "HC3_No" ~ "CR3",
+      se_type == "wild-rademacher_No" ~ "wild-cluster bootstrap-se (Rademacher)",
+      se_type == "wild-mammen_No" ~ "wild-cluster bootstrap-se (Mammen)",
+      se_type == "wild-norm_No" ~ "wild-cluster bootstrap-se (Norm)",
+      se_type == "wild-webb_No" ~ "wild-cluster bootstrap-se (Webb)",
+      se_type == "xy_No" ~ "cluster pairs bootstrap-se",
+      se_type == "wild-rademacher_Yes" ~ "wild-cluster bootstrap-$t$ (Rademacher)",
+      se_type == "wild-mammen_Yes" ~ "wild-cluster bootstrap-$t$ (Mammen)",
+      se_type == "wild-norm_Yes" ~ "wild-cluster bootstrap-$t$ (Norm)",
+      se_type == "wild-webb_Yes" ~ "wild-cluster bootstrap-$t$ (Webb)",
+      se_type == "xy_Yes" ~ "cluster pairs bootstrap-$t$",
+      se_type == "ri_No" ~ "randomization inference $\\beta$"
     )
   ) %>%
   select(
@@ -134,24 +175,29 @@ inference_table <-
 options(knitr.kable.NA = '')
 
 sink("08_memo/tables/inference.tex")
-kable(
-  x = inference_table,
-  format = "latex",
-  col.names = c("Estimator", "IPV", "Physical/Sexual", "Emotional"),
-  escape = FALSE,
-  align = "lccc",
-  booktabs = TRUE,
-  linesep = c("", "\\addlinespace")
-) %>% 
+tab <-
+  kable(
+    x = inference_table,
+    format = "latex",
+    col.names = c("Estimator", "IPV", "Physical/Sexual", "Emotional"),
+    escape = FALSE,
+    align = "lccc",
+    booktabs = TRUE,
+    linesep = c("", "\\addlinespace")
+  ) %>%
   kable_styling(latex_options = "HOLD_position") %>%
   add_header_above(c(" ", "(1)", "(2)", "(3)"), line = F) %>%
-  footnote("Comparison of inference from sampling and randomization-based 
+  footnote(
+    "Comparison of inference from sampling and randomization-based
        uncertainty estimates for pre-registered primary outcomes. Estimated standard errors
-       are shown with $p$-value from two-sided hypothesis of no effect shown in parentheses. 
+       are shown with $p$-value from two-sided hypothesis of no effect shown in parentheses.
        CR0 - CR3 are cluster and heteroskedasticity robust variance estimators as defined in
-       The wild cluster bootstrap estimates use the algorithm from Cameron, Gelbach, & Miller (2008) 
-       with multipliers drawn from either the Rademacher, Mammen, Normal, or Webb distributions.", 
-       escape = F, threeparttable = T )
+       The wild cluster bootstrap estimates use the algorithm from Cameron, Gelbach, and Miller (2008)
+       with multipliers drawn from either the Rademacher, Mammen, Normal, or Webb distributions.",
+    escape = F,
+    threeparttable = T
+  )  
+  print(tab)
 sink()
 
 

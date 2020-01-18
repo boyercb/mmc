@@ -18,6 +18,7 @@ main_estimator <-
             data,
             cluster = NULL,
             se_type = "HC2",
+            studentized = FALSE,
             sims) {
     
     if (is.null(covariates)) {
@@ -42,13 +43,35 @@ main_estimator <-
     
     if (se_type %in% c("xy", "residual") | grepl("^wild", se_type)) {
       stopifnot(!is.null(sims))
-      vcov <- vcovBS(
-        fit,
-        cluster = fc,
-        R = sims,
-        type = se_type,
-        start = TRUE
-      )
+      if (studentized) {
+        if (is.null(cluster)) {
+          vcov <- vcovHC(
+            fit,
+            type = "HC2"
+          )
+        } else {
+          vcov <- vcovCL(
+            fit,
+            cluster = fc,
+            type = "HC2"
+          )
+        }
+        bs <- boott(
+          fit,
+          cluster = fc,
+          R = sims,
+          type = se_type,
+          impose.null = treatment
+        )
+      } else { 
+        vcov <- vcovBS(
+          fit,
+          cluster = fc,
+          R = sims,
+          type = se_type,
+          start = TRUE
+        )
+      }
     } else if (grepl("^HC[0-3]", se_type)) {
       if (is.null(cluster)) {
         vcov <- vcovHC(
@@ -70,9 +93,12 @@ main_estimator <-
     
     robust <- coeftest(fit, vcov = vcov)
     
+    bs <- if (studentized) bs else NULL
+    
     est_obj <- list(
       fit = fit,
-      robust = robust
+      robust = robust,
+      bs = bs
     )
     
     class(est_obj) <- "main_estimator"
@@ -80,4 +106,34 @@ main_estimator <-
     return(est_obj)
   }
 
-
+# examples
+if (FALSE) {
+  main_estimator(
+    outcome = "ipv_control_2pl_irt_index_w",
+    covariates = get_covariates("ipv_control_2pl_irt_index_w", selected_covariates),
+    data = el_imputed,
+    cluster = "block_id", 
+    se_type = "wild",
+    sims = sims
+  )
+  
+  main_estimator(
+    outcome = "ipv_control_2pl_irt_index_w",
+    covariates = get_covariates("ipv_control_2pl_irt_index_w", selected_covariates),
+    data = el_imputed,
+    cluster = "block_id", 
+    se_type = "wild",
+    studentized = T,
+    sims = sims
+  )
+  
+  main_estimator(
+    outcome = "ipv_control_2pl_irt_index_w",
+    covariates = get_covariates("ipv_control_2pl_irt_index_w", selected_covariates),
+    data = el_imputed,
+    cluster = "block_id", 
+    se_type = "wild-webb",
+    studentized = T,
+    sims = sims
+  )
+}

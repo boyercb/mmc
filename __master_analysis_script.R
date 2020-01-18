@@ -5,7 +5,7 @@ rm(list = ls())
 
 sims <- 10000
 
-run_imputations <- TRUE 
+run_imputations <- FALSE 
 
 
 # Packages and helper functions -------------------------------------------
@@ -92,7 +92,7 @@ source("07_robustness_checks/01_outcome_summaries.R")
 
 source("07_robustness_checks/02_covariate_balance.R")
 
-source("07_robustness_checks/03_attrition.R")
+#source("07_robustness_checks/03_attrition.R")
 
 source("07_robustness_checks/04_inference.R")
 
@@ -102,10 +102,11 @@ source("07_robustness_checks/06_block_assignment_type.R")
 
 source("07_robustness_checks/07_measurement.R")
 
-source("07_robustness_checks/08_missing_data_models.R")
+#source("07_robustness_checks/08_missing_data_models.R")
 
-source("07_robustness_checks/09_bayes.R")
+#source("07_robustness_checks/09_leave_one_out.R")
 
+#source("07_robustness_checks/10_bayes.R")
 
 # compliance
 # standard errors

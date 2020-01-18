@@ -1,0 +1,26 @@
+
+\begin{tabular}{l c c c c c c c c}
+\toprule
+ & \shortstack{Donated to\\charity} & \shortstack{Donated to\\charity} & \shortstack{Lend to\\neighbor} & \shortstack{Lend to\\neighbor} & \shortstack{Donated to\\charity} & \shortstack{Donated to\\charity} & \shortstack{Lend to\\neighbor} & \shortstack{Lend to\\neighbor} \\
+\midrule
+MMC                 & $-0.010$       & $-0.010$      & $0.017$        & $0.056$       & $-0.012$       & $-0.014$      & $0.528$        & $0.196$       \\
+                    & $(0.056)$      & $(0.056)$     & $(0.132)$      & $(0.136)$     & $(0.068)$      & $(0.064)$     & $(0.548)$      & $(0.182)$     \\
+Constant            & $0.089^{***}$  & $0.089^{***}$ & $1.278^{***}$  & $1.243^{***}$ & $0.081^{*}$    & $0.077^{*}$   & $1.068^{*}$    & $1.343^{***}$ \\
+                    & $(0.026)$      & $(0.026)$     & $(0.080)$      & $(0.090)$     & $(0.039)$      & $(0.039)$     & $(0.462)$      & $(0.159)$     \\
+\midrule
+Bootstrap $p$-value & $0.855$        & $0.855$       & $0.902$        & $0.682$       & $0.882$        & $0.844$       & $0.334$        & $0.315$       \\
+Respondent          & $Man$          & $Man$         & $Man$          & $Man$         & $Woman$        & $Woman$       & $Woman$        & $Woman$       \\
+Covariates          & $\textrm{Yes}$ & $\textrm{No}$ & $\textrm{Yes}$ & $\textrm{No}$ & $\textrm{Yes}$ & $\textrm{No}$ & $\textrm{Yes}$ & $\textrm{No}$ \\
+Clusters            & $16$           & $16$          & $16$           & $16$          & $16$           & $16$          & $16$           & $16$          \\
+Observations        & $360$          & $360$         & $360$          & $360$         & $360$          & $360$         & $360$          & $360$         \\
+Adj. R$^2$          & $-0.003$       & $-0.003$      & $0.030$        & $-0.002$      & $0.002$        & $-0.002$      & $0.032$        & $0.006$       \\
+\bottomrule
+\multicolumn{9}{l}{\scriptsize{\parbox{\linewidth}{\vspace{2pt} 
+       \textit{Notes:} Estimates of the intent-to-treat effects of Modern Man mobile 
+       messaging program on experimenter demand effects questions using adjusted regression 
+       specification based on the Lin 2013 estimator with CR2 cluster-robust
+       standard errors in parentheses. Columns 1 and 2 and 5 and 6 are an indicator of how often the
+       respondent reports donating to charity/an international NGO. Columns 3 and 4 and 7 and 8 are 
+       an indicator of how often the respondent reports lending money or help to a neighbor.
+       Bootstrap $p$-value estimated using 10,000 replicates of wild cluster bootstrap-$t$. \\ $^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$.}}}
+\end{tabular}

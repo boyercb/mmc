@@ -1,0 +1,65 @@
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} \\
+Estimator & IPV & Physical/Sexual & Emotional\\
+\midrule
+CR0 & 0.078 & 0.130 & 0.054\\
+ & [0.070] & [0.395] & [0.042]\\
+\addlinespace
+CR1 & 0.079 & 0.133 & 0.055\\
+ & [0.075] & [0.405] & [0.044]\\
+\addlinespace
+CR2 & 0.085 & 0.141 & 0.059\\
+ & [0.095] & [0.433] & [0.063]\\
+\addlinespace
+CR3 & 0.096 & 0.231 & 0.068\\
+ & [0.140] & [0.632] & [0.105]\\
+\addlinespace
+wild-cluster bootstrap-se (Rademacher) & 0.075 & 0.124 & 0.052\\
+ & [0.059] & [0.375] & [0.035]\\
+\addlinespace
+wild-cluster bootstrap-se (Mammen) & 0.077 & 0.126 & 0.053\\
+ & [0.064] & [0.381] & [0.037]\\
+\addlinespace
+wild-cluster bootstrap-se (Norm) & 0.075 & 0.125 & 0.053\\
+ & [0.061] & [0.378] & [0.037]\\
+\addlinespace
+wild-cluster bootstrap-se (Webb) & 0.076 & 0.125 & 0.052\\
+ & [0.064] & [0.377] & [0.036]\\
+\addlinespace
+cluster pairs bootstrap-se & 0.083 & 0.281 & 0.066\\
+ & [0.090] & [0.694] & [0.095]\\
+\addlinespace
+wild-cluster bootstrap-$t$ (Rademacher) & - & - & -\\
+ & [0.119] & [0.414] & [0.088]\\
+\addlinespace
+wild-cluster bootstrap-$t$ (Mammen) & - & - & -\\
+ & [0.129] & [0.459] & [0.085]\\
+\addlinespace
+wild-cluster bootstrap-$t$ (Norm) & - & - & -\\
+ & [0.121] & [0.438] & [0.084]\\
+\addlinespace
+wild-cluster bootstrap-$t$ (Webb) & - & - & -\\
+ & [0.121] & [0.410] & [0.089]\\
+\addlinespace
+cluster pairs bootstrap-$t$ & - & - & -\\
+ & [0.516] & [0.625] & [0.495]\\
+\addlinespace
+randomization inference $\beta$ & - & - & -\\
+ & [0.106] & [0.489] & [0.104]\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\item \textit{Note: } 
+\item Comparison of inference from sampling and randomization-based
+       uncertainty estimates for pre-registered primary outcomes. Estimated standard errors
+       are shown with $p$-value from two-sided hypothesis of no effect shown in parentheses.
+       CR0 - CR3 are cluster and heteroskedasticity robust variance estimators as defined in
+       The wild cluster bootstrap estimates use the algorithm from Cameron, Gelbach, and Miller (2008)
+       with multipliers drawn from either the Rademacher, Mammen, Normal, or Webb distributions.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

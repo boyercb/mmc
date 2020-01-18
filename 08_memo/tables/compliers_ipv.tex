@@ -3,23 +3,24 @@
 \toprule
  & IPV & IPV & Physical/Sexual & Physical/Sexual & Emotional & Emotional \\
 \midrule
-MMC          & $0.039$        & $0.052$       & $0.068$        & $0.087$       & $0.002$        & $-0.003$      \\
-             & $(0.078)$      & $(0.129)$     & $(0.066)$      & $(0.112)$     & $(0.081)$      & $(0.113)$     \\
-Constant     & $-0.011$       & $-0.007$      & $-0.026$       & $-0.020$      & $0.036$        & $0.038$       \\
-             & $(0.042)$      & $(0.049)$     & $(0.044)$      & $(0.055)$     & $(0.063)$      & $(0.064)$     \\
+MMC                 & $0.185$        & $0.207$       & $0.381$        & $0.168$       & $0.111$        & $0.091$       \\
+                    & $(0.095)$      & $(0.164)$     & $(0.327)$      & $(0.146)$     & $(0.070)$      & $(0.130)$     \\
+Constant            & $-0.077$       & $-0.076$      & $-0.327$       & $-0.073$      & $-0.024$       & $-0.024$      \\
+                    & $(0.079)$      & $(0.090)$     & $(0.304)$      & $(0.090)$     & $(0.062)$      & $(0.071)$     \\
 \midrule
-Covariates   & $\textrm{Yes}$ & $\textrm{No}$ & $\textrm{Yes}$ & $\textrm{No}$ & $\textrm{Yes}$ & $\textrm{No}$ \\
-Clusters     & $16$           & $16$          & $16$           & $16$          & $16$           & $16$          \\
-Observations & $445$          & $445$         & $445$          & $445$         & $445$          & $445$         \\
-Adj. R$^2$   & $0.309$        & $-0.001$      & $0.281$        & $0.001$       & $0.315$        & $-0.002$      \\
+Bootstrap $p$-value & $0.073$        & $0.258$       & $0.207$        & $0.289$       & $0.124$        & $0.534$       \\
+Covariates          & $\textrm{Yes}$ & $\textrm{No}$ & $\textrm{Yes}$ & $\textrm{No}$ & $\textrm{Yes}$ & $\textrm{No}$ \\
+Clusters            & $16$           & $16$          & $16$           & $16$          & $16$           & $16$          \\
+Observations        & $360$          & $360$         & $360$          & $360$         & $360$          & $360$         \\
+Adj. R$^2$          & $0.418$        & $0.011$       & $0.369$        & $0.008$       & $0.429$        & $0.000$       \\
 \bottomrule
 \multicolumn{7}{l}{\scriptsize{\parbox{\linewidth}{\vspace{2pt} 
        \textit{Notes:} Estimates of the complier average treatment effects of Modern Man mobile 
        messaging program on pre-registered primary outcomes using adjusted regression 
-       specification based on the Lin 2013 estimator with wild cluster bootstrap 
+       specification based on the Lin 2013 estimator with CR2 cluster-robust 
        standard errors in parentheses. Columns 1 and 2 are a composite index of 
        acts of intimate partner violence. Columns 3 and 4 are a composite index of acts
        of physical violence. Columns 5 and 6 are a composite index of acts of sexual violence.
        All indices were constructed using the first factor from IRT models of subitems. 
-       Bootstrapped standard errors estimated using 10,000 replicates. \\ $^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$.}}}
+       Bootstrap $p$-value estimated using 10,000 replicates of wild cluster bootstrap-$t$. \\ $^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$.}}}
 \end{tabular}

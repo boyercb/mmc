@@ -23,6 +23,7 @@
 \usepackage{rotate}
 \usepackage{subcaption}
 \usepackage{titletoc}
+\usepackage{threeparttable}
 \usepackage[pdfborder={0 0 0}]{hyperref}
 
 
@@ -79,14 +80,20 @@
 
 \subsection{Regression specifications}
 
-Pre-liminary results are estimated using two different regressions specifications. The unadjusted estimator is a least squares regression that conditions on an indicator for the treatment assignment $Z_i$ and uses CR2 cluster robust standard errors, i.e.:
+Pre-liminary results are estimated using two different regressions specifications. The unadjusted estimator is a least squares regression that conditions on an indicator for the treatment assignment $Z_i$ with standard errors estimated using the wild-cluster bootstrap to account for the small number of clusters ($N = 16$), i.e.:
 
 \[Y_{ij} = \beta_0 + \beta_1 Z_i + \varepsilon_i \]
 
-The adjusted estimator conditions on mean-centered pre-treatment violence outcomes (i.e. prior to Christmas 2018) that were measured retrospectively during the women's survey and includes interaction terms as suggested in Lin (2013):
+The adjusted estimator additionally conditions on a vector of mean-centered covariates, $\overline{X}_i$, comprising:
+\begin{itemize}
+\item baseline measures assessed during a household survey in 2018.
+\item endline measures assumed to be time invariant assessed in 2019.
+\item retrospective reports of pre-treatment violence asssessed in 2019 but referring to the 5 months prior to Christmas 2018.
+\end{itemize} 
+For each outcome the set of covariates in $\overline{X}_i$ are selected via the lasso. The adjusted estimator also includes covariate by treatment interaction terms as suggested in Lin (2013):
 \[Y_{ij} = \beta_0 + \beta_1 Z_i + \beta_2 \overline{X}_i + \beta_3 Z_i \overline{X}_i + \varepsilon_i\]
 
-In both specifications $\beta_1$ estimates the intention-to-treat effect of the Modern Man Challenge. An additional pooled analysis is also presented in which outcomes are aggregated at the cluster level and then regressed using both specifications listed above but at the cluster-level instead of the individual.
+In both specifications $\beta_1$ estimates the intention-to-treat effect of the Modern Man Challenge. 
 
 \subsection{Primary Outcomes}
 
@@ -98,6 +105,13 @@ In both specifications $\beta_1$ estimates the intention-to-treat effect of the 
 \caption{ITT effects on indices of intimate partner violence since Christmas 2018.}
 \label{tab:ipv}
 \end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/densities.pdf}
+\caption{Comparison of densities of violence indices by treatment status.}
+\label{fig:densities}
+\end{figure}
 
 \subsubsection{Subitems}
 
@@ -211,12 +225,12 @@ In both specifications $\beta_1$ estimates the intention-to-treat effect of the 
 
 \subsubsection{Covariate balance among compliers}
 
-\begin{table}[H]
-\centering
+% \begin{table}[H]
+% \centering
 \input{tables/complier_balance_results}
-\caption{Covariate balance among those who attended meeting about either MMC or health program.}
-\label{tab:complier_balance_results}
-\end{table}
+% \caption{Covariate balance among those who attended meeting about either MMC or health program.}
+% \label{tab:complier_balance_results}
+% \end{table}
 
 \subsection{Complier average causal effects}
 
@@ -262,12 +276,12 @@ In both specifications $\beta_1$ estimates the intention-to-treat effect of the 
 
 \subsubsection{}
 
-\begin{table}[H]
-\centering
+% \begin{table}[H]
+% \centering
 \input{tables/balance_results}
-\caption{Balance of MMC and control clusters on pre-treatment and time invariant coviarates.}
-\label{tab:balance_results}
-\end{table}
+% \caption{Balance of MMC and control clusters on pre-treatment and time invariant coviarates.}
+% \label{tab:balance_results}
+% \end{table}
 
 \subsubsection{Joint tests}
 
@@ -276,7 +290,45 @@ In both specifications $\beta_1$ estimates the intention-to-treat effect of the 
 
 \subsection{Inference}
 
+\begin{table}[H]
+\centering
+\input{tables/inference}
+\caption{Comparison of variance estimators for inference for ITT effects.}
+\label{tab:inference}
+\end{table}
+
+\subsection{Pooled analysis}
+
+\begin{table}[H]
+\centering
+\input{tables/ipv_pooled}
+\caption{Pooled ITT effects on indices of intimate partner violence since Christmas 2018 at the cluster level.}
+\label{tab:ipv_pooled}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figures/ipv_pooled.pdf}
+\caption{Plot of pooled ITT effects.}
+\label{fig:ipv_pooled}
+\end{figure}
+
 \subsection{Block assignment}
+
+\begin{table}[H]
+\centering
+\input{tables/block_rand}
+\caption{Comparison of results by whether block was min-max randomized only.}
+\label{tab:block_rand}
+\end{table}
+
+\begin{table}[H]
+\centering
+\input{tables/block_rand_X}
+\caption{ITT treatment effect heterogeneity by whether block was min-max randomized only.}
+\label{tab:block_rand_X}
+\end{table}
+
 
 \subsection{Missing data models}
 
